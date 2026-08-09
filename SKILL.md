@@ -1072,6 +1072,7 @@ html = f'''<!DOCTYPE html>
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="color-scheme" content="light">
   <meta name="snowflake-source" content="cortex-agent-authored"/>
   <title>Industry Onboarding Checks — {scope_label}</title>
   <script type="application/json" id="snowflake-report-metadata">
@@ -1085,7 +1086,7 @@ html = f'''<!DOCTYPE html>
   }}
   </script>
   <style>
-    :root {{ color-scheme: light; }}
+    :root {{ color-scheme: light; forced-color-adjust: none; }}
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
       font-family: -apple-system, system-ui, sans-serif;
