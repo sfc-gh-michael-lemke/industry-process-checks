@@ -581,8 +581,15 @@ Run all three checks in parallel. No scope confirmation needed.
 #### EOM Check 1 — Consumption No Industry (INDUSTRY_CHECK_CONSUMPTION_NO_INDUSTRY)
 > Finds accounts that have consumption revenue but no industry assigned in Salesforce.
 > **Risk:** Account revenue is unattributed to an industry — affects reporting and compensation.
+> **Important:** Always filter to `FORECAST_RUN_DATE = MAX(FORECAST_RUN_DATE)` and the current `FISCAL_YEAR`. The table stores one row per account per forecast run per calendar date — summing without this filter multiplies revenue ~188x across all runs.
 
 ```sql
+WITH latest_run AS (
+    SELECT MAX(FORECAST_RUN_DATE) AS max_run_date,
+           MAX(FISCAL_YEAR) AS current_fy
+    FROM FINANCE.CUSTOMER.PRODUCT_REVENUE_FORECAST_SALES_PLANNING
+    WHERE FORECAST_RUN_DATE = (SELECT MAX(FORECAST_RUN_DATE) FROM FINANCE.CUSTOMER.PRODUCT_REVENUE_FORECAST_SALES_PLANNING)
+)
 SELECT
     prf.salesforce_account_name AS name,
     CASE
@@ -592,15 +599,18 @@ SELECT
     END AS check_result,
     CASE
         WHEN SUM(prf.total_product_revenue) > 0 AND MAX(acct.salesforce_account_industry) IS NULL
-            THEN 'Account has consumption ($' || TO_VARCHAR(ROUND(SUM(prf.total_product_revenue), 0), '999,999,999') || ') but no industry assigned'
+            THEN 'Account has consumption ($' || TO_VARCHAR(ROUND(SUM(prf.total_product_revenue)/1000000, 1)) || 'M) but no industry assigned'
         ELSE NULL
     END AS review_notes
 FROM FINANCE.CUSTOMER.PRODUCT_REVENUE_FORECAST_SALES_PLANNING prf
+CROSS JOIN latest_run
 LEFT JOIN SNOW_CERTIFIED.SALESFORCE_ACCOUNT.DD_SALESFORCE_ACCOUNT acct
     ON prf.salesforce_account_id = acct.salesforce_account_id
+WHERE prf.FORECAST_RUN_DATE = latest_run.max_run_date
+  AND prf.FISCAL_YEAR = latest_run.current_fy
 GROUP BY prf.salesforce_account_name
 HAVING SUM(prf.total_product_revenue) > 0
-ORDER BY check_result DESC, name
+ORDER BY check_result DESC, SUM(prf.total_product_revenue) DESC
 ```
 
 ---
