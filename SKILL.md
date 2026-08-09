@@ -826,13 +826,13 @@ html_file = os.path.join(AUDITS_DIR, f'report_{timestamp}.html')
 
 # Build summary table rows from check results
 def summary_row(label, nr, passed, is_manual, risk=None, is_last=False, action_label=None, action_url=None):
-    sep = '' if is_last else 'border-bottom:1px solid #f1f5f9;'
+    sep = '' if is_last else 'border-bottom:1px solid #f8fafc;'
     dim = 'opacity:.7;' if (not is_manual and nr == 0) else ''
     bg = 'background:#fafafa;' if is_manual else ''
     risk_badges = {
         'high':   '<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#fee2e2;color:#dc2626;">High</span>',
         'medium': '<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#fef9c3;color:#d97706;">Medium</span>',
-        'low':    '<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#f1f5f9;color:#6b7280;">Low</span>',
+        'low':    '<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#f8fafc;color:#6b7280;">Low</span>',
     }
     risk_cell = f'<td style="padding:9px 16px;text-align:center;">{risk_badges[risk]}</td>' if risk else '<td style="padding:9px 16px;text-align:center;color:#94a3b8;">\u2014</td>'
     if is_manual:
@@ -881,7 +881,7 @@ def detail_section(label, nr, headers, rows, instructions, link_label=None, link
     header_cells = ''.join(f'<th style="padding:9px 14px;text-align:left;font-weight:600;color:#64748b;font-size:11px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #e2e8f0;">{h}</th>' for h in headers)
     row_html = ''
     for i, r in enumerate(rows):
-        br = 'border-bottom:1px solid #f1f5f9;' if i < len(rows)-1 else ''
+        br = 'border-bottom:1px solid #f8fafc;' if i < len(rows)-1 else ''
         cells = ''.join(f'<td style="padding:9px 14px;color:#475569;">{c}</td>' for c in r)
         row_html += f'<tr style="{br}">{cells}</tr>'
     link_html = (
@@ -944,7 +944,7 @@ detail_sections_html += detail_section(
     <needs_review_rows_c7>,
     'Add SPECIALIST_GROUP to Pigment 2.05 OPS HC Planning (Specialist Overview). Only a handful of employees typically have this missing.',
     'Pigment 2.05', 'https://pigment.app/w/snowflake/application/7ab9ab3f-584b-4a23-95b1-813cf708b2c1/boards/6eb0b362-57c3-49bf-99fd-59c693b750bc',
-    badge_bg='#f1f5f9', badge_fg='#6b7280'
+    badge_bg='#f8fafc', badge_fg='#6b7280'
 )
 
 # C8 — Sigma Access (Medium risk badge)
@@ -1035,7 +1035,7 @@ row1_html = f'''
     </div>
     <div style="background:#fff;border-radius:12px;padding:22px 20px;box-shadow:0 1px 6px rgba(0,0,0,.1);display:flex;flex-direction:column;gap:4px;">
       <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;">Passing All Automated</div>
-      <div style="font-size:52px;font-weight:900;line-height:1;color:#16a34a;margin:6px 0 4px;">{passing_count}</div>
+      <div style="font-size:52px;font-weight:900;line-height:1;color:#0f172a;margin:6px 0 4px;">{passing_count}</div>
       <div style="font-size:13px;font-weight:500;color:#475569;">No actionable issues detected</div>
       <div style="font-size:10px;opacity:.7;margin-top:2px;">Excludes C4, C11 (manual) and C7 metadata gap</div>
     </div>
@@ -1089,7 +1089,7 @@ html = f'''<!DOCTYPE html>
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
       font-family: -apple-system, system-ui, sans-serif;
-      background: #f1f5f9;
+      background: #f8fafc;
       color: #1e293b;
       padding: 28px 20px 48px;
       min-height: 100vh;
