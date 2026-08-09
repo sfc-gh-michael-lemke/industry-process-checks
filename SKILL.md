@@ -826,35 +826,35 @@ html_file = os.path.join(AUDITS_DIR, f'report_{timestamp}.html')
 
 # Build summary table rows from check results
 def summary_row(label, nr, passed, is_manual, risk=None, is_last=False, action_label=None, action_url=None):
-    sep = '' if is_last else 'border-bottom:1px solid light-dark(#f1f5f9,#1a2233);'
+    sep = '' if is_last else 'border-bottom:1px solid #f1f5f9;'
     dim = 'opacity:.7;' if (not is_manual and nr == 0) else ''
-    bg = 'background:light-dark(#fafafa,#1a2233);' if is_manual else ''
+    bg = 'background:#fafafa;' if is_manual else ''
     risk_badges = {
         'high':   '<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#fee2e2;color:#dc2626;">High</span>',
         'medium': '<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#fef9c3;color:#d97706;">Medium</span>',
-        'low':    '<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:light-dark(#f1f5f9,#334155);color:#6b7280;">Low</span>',
+        'low':    '<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#f1f5f9;color:#6b7280;">Low</span>',
     }
-    risk_cell = f'<td style="padding:9px 16px;text-align:center;">{risk_badges[risk]}</td>' if risk else '<td style="padding:9px 16px;text-align:center;color:light-dark(#94a3b8,#475569);">\u2014</td>'
+    risk_cell = f'<td style="padding:9px 16px;text-align:center;">{risk_badges[risk]}</td>' if risk else '<td style="padding:9px 16px;text-align:center;color:#94a3b8;">\u2014</td>'
     if is_manual:
-        nr_cell = '<td style="padding:9px 16px;text-align:center;color:light-dark(#94a3b8,#475569);">\u2014</td>'
-        pass_cell = '<td style="padding:9px 16px;text-align:center;color:light-dark(#94a3b8,#475569);">\u2014</td>'
+        nr_cell = '<td style="padding:9px 16px;text-align:center;color:#94a3b8;">\u2014</td>'
+        pass_cell = '<td style="padding:9px 16px;text-align:center;color:#94a3b8;">\u2014</td>'
         manual_cell = '<td style="padding:9px 16px;text-align:center;color:#6b7280;font-weight:600;">\u26a0\ufe0f All</td>'
     else:
         nr_color = '#9ca3af' if nr == 0 else '#dc2626'
         nr_text = f'0 \u2705' if nr == 0 else str(nr)
         nr_weight = 'font-weight:700;' if nr > 0 else ''
         nr_cell = f'<td style="padding:9px 16px;text-align:center;{nr_weight}color:{nr_color};">{nr_text}</td>'
-        pass_cell = f'<td style="padding:9px 16px;text-align:center;color:light-dark(#475569,#94a3b8);">{passed}</td>'
-        manual_cell = '<td style="padding:9px 16px;text-align:center;color:light-dark(#94a3b8,#475569);">\u2014</td>'
+        pass_cell = f'<td style="padding:9px 16px;text-align:center;color:#475569;">{passed}</td>'
+        manual_cell = '<td style="padding:9px 16px;text-align:center;color:#94a3b8;">\u2014</td>'
     # Take Action cell: show link/text when nr>0 or manual; dash when passing
     show_action = (is_manual or nr > 0)
     if show_action and action_label and action_url:
         action_cell = f'<td style="padding:9px 16px;"><a href="{action_url}" target="_blank" style="font-size:12px;color:#2563eb;font-weight:500;white-space:nowrap;">&rarr; {action_label}</a></td>'
     elif show_action and action_label:
-        action_cell = f'<td style="padding:9px 16px;font-size:12px;font-weight:500;color:light-dark(#475569,#94a3b8);white-space:nowrap;">{action_label}</td>'
+        action_cell = f'<td style="padding:9px 16px;font-size:12px;font-weight:500;color:#475569;white-space:nowrap;">{action_label}</td>'
     else:
-        action_cell = '<td style="padding:9px 16px;text-align:center;color:light-dark(#94a3b8,#475569);">\u2014</td>'
-    return f'<tr style="{sep}{dim}{bg}"><td style="padding:9px 16px;color:light-dark(#1e293b,#e2e8f0);font-weight:500;">{label}</td>{risk_cell}{nr_cell}{pass_cell}{manual_cell}{action_cell}</tr>'
+        action_cell = '<td style="padding:9px 16px;text-align:center;color:#94a3b8;">\u2014</td>'
+    return f'<tr style="{sep}{dim}{bg}"><td style="padding:9px 16px;color:#1e293b;font-weight:500;">{label}</td>{risk_cell}{nr_cell}{pass_cell}{manual_cell}{action_cell}</tr>'
 
 PIGMENT_206 = 'https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691'
 PIGMENT_205 = 'https://pigment.app/w/snowflake/application/7ab9ab3f-584b-4a23-95b1-813cf708b2c1/boards/6eb0b362-57c3-49bf-99fd-59c693b750bc'
@@ -878,30 +878,30 @@ summary_rows_html = (
 def detail_section(label, nr, headers, rows, instructions, link_label=None, link_url=None, badge_bg='#fee2e2', badge_fg='#dc2626'):
     if nr == 0:
         return ''
-    header_cells = ''.join(f'<th style="padding:9px 14px;text-align:left;font-weight:600;color:light-dark(#64748b,#94a3b8);font-size:11px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid light-dark(#e2e8f0,#334155);">{h}</th>' for h in headers)
+    header_cells = ''.join(f'<th style="padding:9px 14px;text-align:left;font-weight:600;color:#64748b;font-size:11px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #e2e8f0;">{h}</th>' for h in headers)
     row_html = ''
     for i, r in enumerate(rows):
-        br = 'border-bottom:1px solid light-dark(#f1f5f9,#1e293b);' if i < len(rows)-1 else ''
-        cells = ''.join(f'<td style="padding:9px 14px;color:light-dark(#475569,#cbd5e1);">{c}</td>' for c in r)
+        br = 'border-bottom:1px solid #f1f5f9;' if i < len(rows)-1 else ''
+        cells = ''.join(f'<td style="padding:9px 14px;color:#475569;">{c}</td>' for c in r)
         row_html += f'<tr style="{br}">{cells}</tr>'
     link_html = (
         f'<a href="{link_url}" target="_blank" style="font-size:12px;color:#2563eb;font-weight:500;white-space:nowrap;">&rarr; {link_label}</a>'
         if link_label and link_url else
-        f'<span style="font-size:12px;font-weight:500;color:light-dark(#475569,#94a3b8);white-space:nowrap;">{link_label}</span>'
+        f'<span style="font-size:12px;font-weight:500;color:#475569;white-space:nowrap;">{link_label}</span>'
         if link_label else ''
     )
     return f'''
     <div style="margin-bottom:28px;">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
         <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:2px 8px;border-radius:99px;background:{badge_bg};color:{badge_fg};">{nr} Needs Review</span>
-        <span style="font-size:14px;font-weight:700;color:light-dark(#0f172a,#f1f5f9);">{label}</span>
+        <span style="font-size:14px;font-weight:700;color:#0f172a;">{label}</span>
       </div>
-      <div style="background:light-dark(#fff,#1e293b);border-radius:10px;border:1px solid light-dark(#e2e8f0,#334155);overflow:hidden;">
+      <div style="background:#fff;border-radius:10px;border:1px solid #e2e8f0;overflow:hidden;">
         <table style="width:100%;border-collapse:collapse;font-size:13px;">
-          <thead><tr style="background:light-dark(#f8fafc,#0f172a);">{header_cells}</tr></thead>
+          <thead><tr style="background:#f8fafc;">{header_cells}</tr></thead>
           <tbody>{row_html}</tbody>
         </table>
-        <div style="padding:12px 16px;background:light-dark(#f8fafc,#0f172a);border-top:1px solid light-dark(#e2e8f0,#334155);font-size:12px;color:light-dark(#64748b,#94a3b8);display:flex;justify-content:space-between;align-items:center;">
+        <div style="padding:12px 16px;background:#f8fafc;border-top:1px solid #e2e8f0;font-size:12px;color:#64748b;display:flex;justify-content:space-between;align-items:center;">
           <span>{instructions}</span>{link_html}
         </div>
       </div>
@@ -944,7 +944,7 @@ detail_sections_html += detail_section(
     <needs_review_rows_c7>,
     'Add SPECIALIST_GROUP to Pigment 2.05 OPS HC Planning (Specialist Overview). Only a handful of employees typically have this missing.',
     'Pigment 2.05', 'https://pigment.app/w/snowflake/application/7ab9ab3f-584b-4a23-95b1-813cf708b2c1/boards/6eb0b362-57c3-49bf-99fd-59c693b750bc',
-    badge_bg='light-dark(#f1f5f9,#334155)', badge_fg='#6b7280'
+    badge_bg='#f1f5f9', badge_fg='#6b7280'
 )
 
 # C8 — Sigma Access (Medium risk badge)
@@ -1022,21 +1022,21 @@ medium_names_html = '<ul style="margin:6px 0 0;padding-left:16px;font-size:10px;
 # ── Row 1: 3 top-level summary tiles ─────────────────────────────────────
 row1_html = f'''
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:1160px;margin:0 auto;">
-    <div style="background:light-dark(#fff,#1e293b);border-radius:12px;padding:22px 20px;box-shadow:0 1px 6px rgba(0,0,0,.1);display:flex;flex-direction:column;gap:4px;">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:light-dark(#64748b,#94a3b8);">Total Active</div>
-      <div style="font-size:52px;font-weight:900;line-height:1;color:light-dark(#0f172a,#f8fafc);margin:6px 0 4px;">{total_employees}</div>
-      <div style="font-size:13px;font-weight:500;color:light-dark(#475569,#94a3b8);">Industry Principals &amp; Architects</div>
+    <div style="background:#fff;border-radius:12px;padding:22px 20px;box-shadow:0 1px 6px rgba(0,0,0,.1);display:flex;flex-direction:column;gap:4px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;">Total Active</div>
+      <div style="font-size:52px;font-weight:900;line-height:1;color:#0f172a;margin:6px 0 4px;">{total_employees}</div>
+      <div style="font-size:13px;font-weight:500;color:#475569;">Industry Principals &amp; Architects</div>
     </div>
-    <div style="background:light-dark(#fff,#1e293b);border-radius:12px;padding:22px 20px;box-shadow:0 1px 6px rgba(0,0,0,.1);display:flex;flex-direction:column;gap:4px;">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:light-dark(#64748b,#94a3b8);">Needs Review</div>
+    <div style="background:#fff;border-radius:12px;padding:22px 20px;box-shadow:0 1px 6px rgba(0,0,0,.1);display:flex;flex-direction:column;gap:4px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;">Needs Review</div>
       <div style="font-size:52px;font-weight:900;line-height:1;color:{'#dc2626' if needs_review_count > 0 else '#9ca3af'};margin:6px 0 4px;">{needs_review_count}</div>
-      <div style="font-size:13px;font-weight:500;color:light-dark(#475569,#94a3b8);">Employees with &ge;1 actionable issue</div>
+      <div style="font-size:13px;font-weight:500;color:#475569;">Employees with &ge;1 actionable issue</div>
       <div style="font-size:10px;opacity:.7;margin-top:2px;">Excludes C7 metadata gap (low risk)</div>
     </div>
-    <div style="background:light-dark(#fff,#1e293b);border-radius:12px;padding:22px 20px;box-shadow:0 1px 6px rgba(0,0,0,.1);display:flex;flex-direction:column;gap:4px;">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:light-dark(#64748b,#94a3b8);">Passing All Automated</div>
+    <div style="background:#fff;border-radius:12px;padding:22px 20px;box-shadow:0 1px 6px rgba(0,0,0,.1);display:flex;flex-direction:column;gap:4px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;">Passing All Automated</div>
       <div style="font-size:52px;font-weight:900;line-height:1;color:#16a34a;margin:6px 0 4px;">{passing_count}</div>
-      <div style="font-size:13px;font-weight:500;color:light-dark(#475569,#94a3b8);">No actionable issues detected</div>
+      <div style="font-size:13px;font-weight:500;color:#475569;">No actionable issues detected</div>
       <div style="font-size:10px;opacity:.7;margin-top:2px;">Excludes C4, C11 (manual) and C7 metadata gap</div>
     </div>
   </div>'''
@@ -1044,24 +1044,24 @@ row1_html = f'''
 # ── Row 2: Risk profile tiles ─────────────────────────────────────────────
 row2_html = f'''
   <div style="max-width:1160px;margin:10px auto 0;">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:light-dark(#94a3b8,#64748b);margin-bottom:8px;">By Risk Profile</div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8;margin-bottom:8px;">By Risk Profile</div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
-      <div style="background:light-dark(#fff5f5,#2d1212);border-radius:12px;padding:20px;border:1px solid light-dark(#fecaca,#5f1d1d);display:flex;flex-direction:column;gap:4px;">
+      <div style="background:#fff5f5;border-radius:12px;padding:20px;border:1px solid #fecaca;display:flex;flex-direction:column;gap:4px;">
         <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#dc2626;">High Priority</div>
         <div style="font-size:46px;font-weight:900;line-height:1;color:#dc2626;margin:5px 0 3px;">{high_count}</div>
-        <div style="font-size:13px;font-weight:500;color:light-dark(#374151,#fca5a5);">Comp or attainment at risk</div>
+        <div style="font-size:13px;font-weight:500;color:#374151;">Comp or attainment at risk</div>
         <div style="font-size:10px;opacity:.75;margin-top:3px;line-height:1.5;">C1, C5, C6, or C12 failing<br>{high_names_html}</div>
       </div>
-      <div style="background:light-dark(#fffbeb,#271a04);border-radius:12px;padding:20px;border:1px solid light-dark(#fcd34d,#5c3a04);display:flex;flex-direction:column;gap:4px;">
+      <div style="background:#fffbeb;border-radius:12px;padding:20px;border:1px solid #fcd34d;display:flex;flex-direction:column;gap:4px;">
         <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#d97706;">Medium Priority</div>
         <div style="font-size:46px;font-weight:900;line-height:1;color:#d97706;margin:5px 0 3px;">{medium_count}</div>
-        <div style="font-size:13px;font-weight:500;color:light-dark(#374151,#fcd34d);">Access issues only</div>
+        <div style="font-size:13px;font-weight:500;color:#374151;">Access issues only</div>
         <div style="font-size:10px;opacity:.75;margin-top:3px;line-height:1.5;">C8/C9/C10 — no comp impact<br>{medium_names_html}</div>
       </div>
-      <div style="background:light-dark(#f8fafc,#1a2233);border-radius:12px;padding:20px;border:1px solid light-dark(#e2e8f0,#334155);opacity:.8;display:flex;flex-direction:column;gap:4px;">
+      <div style="background:#f8fafc;border-radius:12px;padding:20px;border:1px solid #e2e8f0;opacity:.8;display:flex;flex-direction:column;gap:4px;">
         <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;">Low / Monitor</div>
         <div style="font-size:46px;font-weight:900;line-height:1;color:#9ca3af;margin:5px 0 3px;">{low_count}</div>
-        <div style="font-size:13px;font-weight:500;color:light-dark(#475569,#94a3b8);">C7 metadata gap only — or fully passing</div>
+        <div style="font-size:13px;font-weight:500;color:#475569;">C7 metadata gap only — or fully passing</div>
         <div style="font-size:10px;opacity:.75;margin-top:3px;line-height:1.5;">SPECIALIST_GROUP missing for some employees<br>Low risk — no comp/access impact</div>
       </div>
     </div>
@@ -1085,25 +1085,25 @@ html = f'''<!DOCTYPE html>
   }}
   </script>
   <style>
-    :root {{ color-scheme: light dark; }}
+    :root {{ color-scheme: light; }}
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
       font-family: -apple-system, system-ui, sans-serif;
-      background: light-dark(#f1f5f9, #0f172a);
-      color: light-dark(#1e293b, #e2e8f0);
+      background: #f1f5f9;
+      color: #1e293b;
       padding: 28px 20px 48px;
       min-height: 100vh;
     }}
     .header {{ max-width: 1160px; margin: 0 auto 24px; }}
     h1 {{
       font-size: 24px; font-weight: 800;
-      color: light-dark(#0f172a, #f8fafc); margin-bottom: 5px;
+      color: #0f172a; margin-bottom: 5px;
     }}
-    .meta {{ font-size: 13px; color: light-dark(#64748b, #94a3b8); }}
+    .meta {{ font-size: 13px; color: #64748b; }}
     .badge {{
       display: inline-block; padding: 2px 10px; border-radius: 99px;
       font-size: 11px; font-weight: 700; text-transform: uppercase;
-      background: light-dark(#dbeafe, #1e3a5f); color: light-dark(#1d4ed8, #93c5fd);
+      background: #dbeafe; color: #1d4ed8;
       margin-left: 8px; vertical-align: middle;
     }}
   </style>
@@ -1121,17 +1121,17 @@ html = f'''<!DOCTYPE html>
 
   <!-- ── Summary Table ───────────────────────────────────────────── -->
   <div style="max-width:1160px;margin:32px auto 0;">
-    <h2 style="font-size:16px;font-weight:700;color:light-dark(#0f172a,#f1f5f9);margin-bottom:14px;">Summary</h2>
-    <div style="background:light-dark(#fff,#1e293b);border-radius:10px;border:1px solid light-dark(#e2e8f0,#334155);overflow:hidden;">
+    <h2 style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:14px;">Summary</h2>
+    <div style="background:#fff;border-radius:10px;border:1px solid #e2e8f0;overflow:hidden;">
       <table style="width:100%;border-collapse:collapse;font-size:13px;">
         <thead>
-          <tr style="background:light-dark(#f8fafc,#0f172a);">
-            <th style="padding:9px 16px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:light-dark(#64748b,#94a3b8);border-bottom:1px solid light-dark(#e2e8f0,#334155);">Check</th>
-            <th style="padding:9px 16px;text-align:center;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:light-dark(#64748b,#94a3b8);border-bottom:1px solid light-dark(#e2e8f0,#334155);">Risk Profile</th>
-            <th style="padding:9px 16px;text-align:center;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:light-dark(#64748b,#94a3b8);border-bottom:1px solid light-dark(#e2e8f0,#334155);">Needs Review</th>
-            <th style="padding:9px 16px;text-align:center;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:light-dark(#64748b,#94a3b8);border-bottom:1px solid light-dark(#e2e8f0,#334155);">Passed</th>
-            <th style="padding:9px 16px;text-align:center;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:light-dark(#64748b,#94a3b8);border-bottom:1px solid light-dark(#e2e8f0,#334155);">Manual Check</th>
-            <th style="padding:9px 16px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:light-dark(#64748b,#94a3b8);border-bottom:1px solid light-dark(#e2e8f0,#334155);">Take Action</th>
+          <tr style="background:#f8fafc;">
+            <th style="padding:9px 16px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;border-bottom:1px solid #e2e8f0;">Check</th>
+            <th style="padding:9px 16px;text-align:center;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;border-bottom:1px solid #e2e8f0;">Risk Profile</th>
+            <th style="padding:9px 16px;text-align:center;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;border-bottom:1px solid #e2e8f0;">Needs Review</th>
+            <th style="padding:9px 16px;text-align:center;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;border-bottom:1px solid #e2e8f0;">Passed</th>
+            <th style="padding:9px 16px;text-align:center;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;border-bottom:1px solid #e2e8f0;">Manual Check</th>
+            <th style="padding:9px 16px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;border-bottom:1px solid #e2e8f0;">Take Action</th>
           </tr>
         </thead>
         <tbody>{summary_rows_html}</tbody>
@@ -1141,25 +1141,25 @@ html = f'''<!DOCTYPE html>
 
   <!-- ── Detail Sections ─────────────────────────────────────────── -->
   <div style="max-width:1160px;margin:40px auto 0;">
-    <h2 style="font-size:16px;font-weight:700;color:light-dark(#0f172a,#f1f5f9);
+    <h2 style="font-size:16px;font-weight:700;color:#0f172a;
                margin-bottom:20px;padding-bottom:10px;
-               border-bottom:1px solid light-dark(#e2e8f0,#334155);">Action Items</h2>
+               border-bottom:1px solid #e2e8f0;">Action Items</h2>
     {detail_sections_html}
 
   <!-- ── Manual Checks ──────────────────────────────────────────────── -->
   <div style="max-width:1160px;margin:40px auto 0;">
-    <h2 style="font-size:16px;font-weight:700;color:light-dark(#0f172a,#f1f5f9);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid light-dark(#e2e8f0,#334155);">Manual Checks</h2>
-    <div style="background:light-dark(#fafafa,#1e293b);border:1px solid light-dark(#e2e8f0,#334155);border-radius:10px;padding:16px 18px;">
-      <div style="font-size:13px;font-weight:700;color:light-dark(#0f172a,#f1f5f9);margin-bottom:6px;">C11 &mdash; CiQ (Attainment Payout)</div>
-      <div style="font-size:12px;color:light-dark(#64748b,#94a3b8);">Verify each employee has been provisioned in CaptivateIQ. Cannot be automated &mdash; contact the In-Year Planning team. <span style="font-weight:500;">Contact In-Year Planning Team</span></div>
+    <h2 style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #e2e8f0;">Manual Checks</h2>
+    <div style="background:#fafafa;border:1px solid #e2e8f0;border-radius:10px;padding:16px 18px;">
+      <div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:6px;">C11 &mdash; CiQ (Attainment Payout)</div>
+      <div style="font-size:12px;color:#64748b;">Verify each employee has been provisioned in CaptivateIQ. Cannot be automated &mdash; contact the In-Year Planning team. <span style="font-weight:500;">Contact In-Year Planning Team</span></div>
     </div>
   </div>
 
-    <div style="font-size:11px;color:light-dark(#94a3b8,#475569);padding-top:16px;
-                border-top:1px solid light-dark(#e2e8f0,#334155);">
+    <div style="font-size:11px;color:#94a3b8;padding-top:16px;
+                border-top:1px solid #e2e8f0;">
       Generated by Cortex Code &nbsp;·&nbsp; Data from IT.PIGMENT, SNOW_CERTIFIED, Sigma, and Slack &nbsp;·&nbsp;
       <a href="https://docs.google.com/spreadsheets/d/1lC4-qnDxQzGzYwlQ5_y6XPON3ilkx-B2-gZgfP4GdTY/edit?gid=0#gid=0"
-         target="_blank" style="color:light-dark(#2563eb,#60a5fa);">Process Repo</a>
+         target="_blank" style="color:#2563eb;">Process Repo</a>
     </div>
   </div>
 </body>
