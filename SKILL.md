@@ -426,7 +426,7 @@ SELECT
         ELSE 'PASS'
     END AS check_result,
     CASE
-        WHEN s.USER_EMAIL IS NULL THEN 'Not found as an active user in Sigma — file a Lift ticket to provision access'
+        WHEN s.USER_EMAIL IS NULL THEN 'Not found as active Sigma user — file Lift ticket: https://lift.snowflake.com/lift?id=esc_sc_cat_item&table=sc_cat_item&sys_id=62819c911b1f1a505f6111f3b24bcb37&searchTerm=sigma'
         ELSE NULL
     END AS action_needed
 FROM IT.PIGMENT.RAW_INDUSTRY_ROSTER_QUOTA_SUMMARY_INYR r
@@ -716,19 +716,22 @@ MANUAL CHECKS: 1 check requires human verification
 
 Present a summary table of check results across all active employees:
 
-| Check | PASS | NEEDS REVIEW | MANUAL CHECK |
-|-------|------|--------------|---------------|
-| Employee Record | N | N | — |
-| Territories | N | N | — |
-| ETM Alignments | N | N | — |
-| Targets | N | N | — |
-| Baselines | N | N | — |
-| Metadata | N | N | — |
-| Sigma Access | N | N | — |
-| Slack: CX-Specialists | N | N | — (Architects only) |
-| Slack: CX-Mgrs | N | N | — (Architect Mgmt only) |
-| CiQ | — | — | ⚠️ All |
-| Attainment Dashboard | N | N | — |
+| Check | Pass | Needs Review | vs Earlier Today | Risk if Flagged | Link to Resolve |
+|-------|------|--------------|-----------------|-----------------|-----------------|
+| C1 — Employee Record | N | N | delta or "No change" | Comp plan not processed by Field Ops | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C2 — Territories | N | N | delta or "No change" | SFDC account access broken; consumption attribution incorrect | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C3 — ETM Alignments | N | N | delta or "No change" | Org hierarchy and territory routing incorrect; reporting and comp affected | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C5 — Targets | N | N | delta or "No change" | Employee has no attainment target; compensation will be incorrect | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C6 — Baselines | N | N | delta or "No change" | Monthly quota basis for attainment calculation wrong | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C7 — Metadata | N | N | delta or "No change" | Role type unidentified; Sigma and SFDC reporting incorrect | [Pigment 2.05 — OPS HC Planning](https://pigment.app/w/snowflake/application/7ab9ab3f-584b-4a23-95b1-813cf708b2c1/boards/6eb0b362-57c3-49bf-99fd-59c693b750bc) |
+| C8 — Sigma Access | N | N | delta or "No change" | Employee cannot access Sigma dashboards | [Lift — Request Sigma Access](https://lift.snowflake.com/lift?id=esc_sc_cat_item&table=sc_cat_item&sys_id=62819c911b1f1a505f6111f3b24bcb37&searchTerm=sigma) |
+| C9 — Slack #cx-specialists | N/22 Architects | N | delta or "No change" | Architect misses team communications and tool announcements | Contact Field Ops to add to channel |
+| C10 — Slack #cx-specialists-managers | N/3 Arch Mgrs | N | delta or "No change" | Manager misses cross-team operations discussions | Contact Field Ops to add to channel |
+| C11 — CiQ | — | MANUAL CHECK | — | Employee not provisioned in CiQ; attainment payout broken | Contact In-Year Planning Team |
+| C12 — Attainment Dashboard | N | N | delta or "No change" | Employee missing from attainment dashboards; compensation visibility broken | Fix C1, C7, C5/C6 first; escalate to RevOps/DAA if still failing |
+| C13 — Transfers (last 15 days) | — | N transfers found | delta or "No change" | Transferred-in employees may need onboarding re-validation | Re-run C1–C12 for each transferred-in employee |
+
+For the "vs Earlier Today" column: compare against the previous run in this session if one exists. If this is the first run, leave as "—". If counts changed, show the delta (e.g. "+1 new (Employee Name)"). If unchanged, show "No change".
 
 Then list each employee with NEEDS REVIEW on any check, with the specific checks and actions needed.
 
