@@ -716,20 +716,20 @@ MANUAL CHECKS: 1 check requires human verification
 
 Present a summary table of check results across all active employees:
 
-| Check | Pass | Needs Review | vs Earlier Today | Risk if Flagged | Link to Resolve |
-|-------|------|--------------|-----------------|-----------------|-----------------|
-| C1 — Employee Record | N | N | delta or "No change" | Comp plan not processed by Field Ops | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
-| C2 — Territories | N | N | delta or "No change" | SFDC account access broken; consumption attribution incorrect | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
-| C3 — ETM Alignments | N | N | delta or "No change" | Org hierarchy and territory routing incorrect; reporting and comp affected | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
-| C5 — Targets | N | N | delta or "No change" | Employee has no attainment target; compensation will be incorrect | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
-| C6 — Baselines | N | N | delta or "No change" | Monthly quota basis for attainment calculation wrong | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
-| C7 — Metadata | N | N | delta or "No change" | Role type unidentified; Sigma and SFDC reporting incorrect | [Pigment 2.05 — OPS HC Planning](https://pigment.app/w/snowflake/application/7ab9ab3f-584b-4a23-95b1-813cf708b2c1/boards/6eb0b362-57c3-49bf-99fd-59c693b750bc) |
-| C8 — Sigma Access | N | N | delta or "No change" | Employee cannot access Sigma dashboards | [Lift — Request Sigma Access](https://lift.snowflake.com/lift?id=esc_sc_cat_item&table=sc_cat_item&sys_id=62819c911b1f1a505f6111f3b24bcb37&searchTerm=sigma) |
-| C9 — Slack #cx-specialists | N/22 Architects | N | delta or "No change" | Architect misses team communications and tool announcements | Contact Field Ops to add to channel |
-| C10 — Slack #cx-specialists-managers | N/3 Arch Mgrs | N | delta or "No change" | Manager misses cross-team operations discussions | Contact Field Ops to add to channel |
-| C11 — CiQ | — | MANUAL CHECK | — | Employee not provisioned in CiQ; attainment payout broken | Contact In-Year Planning Team |
-| C12 — Attainment Dashboard | N | N | delta or "No change" | Employee missing from attainment dashboards; compensation visibility broken | Fix C1, C7, C5/C6 first; escalate to RevOps/DAA if still failing |
-| C13 — Transfers (last 15 days) | — | N transfers found | delta or "No change" | Transferred-in employees may need onboarding re-validation | Re-run C1–C12 for each transferred-in employee |
+| Check | Pass | Needs Review | vs Earlier Today | Risk Type | Link to Resolve |
+|-------|------|--------------|-----------------|-----------|-----------------|
+| C1 — Employee Record | N | N | delta or "No change" | `Compensation` if NR > 0, else — | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C2 — Territories | N | N | delta or "No change" | `Compensation` `Access` if NR > 0, else — | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C3 — ETM Alignments | N | N | delta or "No change" | `Compensation` `Access` if NR > 0, else — | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C5 — Targets | N | N | delta or "No change" | `Compensation` if NR > 0, else — | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C6 — Baselines | N | N | delta or "No change" | `Compensation` if NR > 0, else — | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C7 — Metadata | N | N | delta or "No change" | `Reporting` if NR > 0, else — | [Pigment 2.05 — OPS HC Planning](https://pigment.app/w/snowflake/application/7ab9ab3f-584b-4a23-95b1-813cf708b2c1/boards/6eb0b362-57c3-49bf-99fd-59c693b750bc) |
+| C8 — Sigma Access | N | N | delta or "No change" | `Access` if NR > 0, else — | [Lift — Request Sigma Access](https://lift.snowflake.com/lift?id=esc_sc_cat_item&table=sc_cat_item&sys_id=62819c911b1f1a505f6111f3b24bcb37&searchTerm=sigma) |
+| C9 — Slack #cx-specialists | N/22 Architects | N | delta or "No change" | `Access` if NR > 0, else — | Contact Field Ops to add to channel |
+| C10 — Slack #cx-specialists-managers | N/3 Arch Mgrs | N | delta or "No change" | `Access` if NR > 0, else — | Contact Field Ops to add to channel |
+| C11 — CiQ | — | MANUAL CHECK | — | `Compensation` | Contact In-Year Planning Team |
+| C12 — Attainment Dashboard | N | N | delta or "No change" | `Compensation` if NR > 0, else — | Fix C1, C7, C5/C6 first; escalate to RevOps/DAA if still failing |
+| C13 — Transfers (last 15 days) | — | N transfers found | delta or "No change" | — | Re-run C1–C12 for each transferred-in employee |
 
 For the "vs Earlier Today" column: compare against the previous run in this session if one exists. If this is the first run, leave as "—". If counts changed, show the delta (e.g. "+1 new (Employee Name)"). If unchanged, show "No change".
 
@@ -828,16 +828,22 @@ run_date = datetime.now().strftime('%B %d, %Y %H:%M')
 html_file = os.path.join(AUDITS_DIR, f'report_{timestamp}.html')
 
 # Build summary table rows from check results
-def summary_row(label, nr, passed, is_manual, risk=None, is_last=False, action_label=None, action_url=None):
+def summary_row(label, nr, passed, is_manual, risk_types=None, is_last=False, action_label=None, action_url=None):
     sep = '' if is_last else 'border-bottom:1px solid #f8fafc;'
     dim = 'opacity:.7;' if (not is_manual and nr == 0) else ''
     bg = 'background:#fafafa;' if is_manual else ''
-    risk_badges = {
-        'high':   '<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#fee2e2;color:#dc2626;">High</span>',
-        'medium': '<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#fef9c3;color:#d97706;">Medium</span>',
-        'low':    '<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#f8fafc;color:#6b7280;">Low</span>',
+    risk_tag_html = {
+        'compensation': '<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:#fee2e2;color:#dc2626;white-space:nowrap;">Compensation</span>',
+        'access':       '<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:#fef9c3;color:#d97706;white-space:nowrap;">Access</span>',
+        'reporting':    '<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:#f8fafc;color:#6b7280;white-space:nowrap;">Reporting</span>',
     }
-    risk_cell = f'<td style="padding:9px 16px;text-align:center;">{risk_badges[risk]}</td>' if risk else '<td style="padding:9px 16px;text-align:center;color:#94a3b8;">\u2014</td>'
+    # Show risk tags only when there are NEEDS REVIEW items (or manual); dash when all passing
+    show_risk = (nr > 0 or is_manual) and risk_types
+    if show_risk:
+        tags_html = ' '.join(risk_tag_html[r] for r in risk_types if r in risk_tag_html)
+        risk_cell = f'<td style="padding:9px 16px;text-align:left;">{tags_html}</td>'
+    else:
+        risk_cell = '<td style="padding:9px 16px;text-align:center;color:#94a3b8;">\u2014</td>'
     if is_manual:
         nr_cell = '<td style="padding:9px 16px;text-align:center;color:#94a3b8;">\u2014</td>'
         pass_cell = '<td style="padding:9px 16px;text-align:center;color:#94a3b8;">\u2014</td>'
@@ -864,17 +870,17 @@ PIGMENT_205 = 'https://pigment.app/w/snowflake/application/7ab9ab3f-584b-4a23-95
 LIFT_URL    = 'https://lift.snowflake.com/lift?id=esc_sc_cat_item&table=sc_cat_item&sys_id=62819c911b1f1a505f6111f3b24bcb37&searchTerm=sigma'
 
 summary_rows_html = (
-    summary_row('C1 — Employee Record',       <nr_c1>,  <pass_c1>,  False, risk='high',   action_label='Contact In-Year Planning Team') +
-    summary_row('C2 — Territories',           <nr_c2>,  <pass_c2>,  False, risk='high',   action_label='Pigment 2.06', action_url=PIGMENT_206) +
-    summary_row('C3 — ETM Alignments',        <nr_c3>,  <pass_c3>,  False, risk='high',   action_label='Pigment 2.06', action_url=PIGMENT_206) +
-    summary_row('C5 — Targets',               <nr_c5>,  <pass_c5>,  False, risk='high',   action_label='Pigment 2.06', action_url=PIGMENT_206) +
-    summary_row('C6 — Baselines',             <nr_c6>,  <pass_c6>,  False, risk='high',   action_label='Pigment 2.06', action_url=PIGMENT_206) +
-    summary_row('C7 — Metadata',              <nr_c7>,  <pass_c7>,  False, risk='low',    action_label='Pigment 2.05', action_url=PIGMENT_205) +
-    summary_row('C8 — Sigma Access',          <nr_c8>,  <pass_c8>,  False, risk='medium', action_label='Lift Request', action_url=LIFT_URL) +
-    summary_row('C9 — Slack: CX-Specialists', <nr_c9>,  <pass_c9>,  False, risk='medium', action_label='Contact Field Ops') +
-    summary_row('C10 — Slack: CX-Mgrs',       <nr_c10>, <pass_c10>, False, risk='medium', action_label='Contact Field Ops') +
-    summary_row('C11 — CiQ',                  0,        0,           True,               action_label='Contact In-Year Planning Team') +
-    summary_row('C12 — Attainment Dashboard', <nr_c12>, <pass_c12>, False, risk='high',   action_label='Contact DAA', is_last=True)
+    summary_row('C1 — Employee Record',       <nr_c1>,  <pass_c1>,  False, risk_types=['compensation'],           action_label='Contact In-Year Planning Team') +
+    summary_row('C2 — Territories',           <nr_c2>,  <pass_c2>,  False, risk_types=['compensation','access'],   action_label='Pigment 2.06', action_url=PIGMENT_206) +
+    summary_row('C3 — ETM Alignments',        <nr_c3>,  <pass_c3>,  False, risk_types=['compensation','access'],   action_label='Pigment 2.06', action_url=PIGMENT_206) +
+    summary_row('C5 — Targets',               <nr_c5>,  <pass_c5>,  False, risk_types=['compensation'],           action_label='Pigment 2.06', action_url=PIGMENT_206) +
+    summary_row('C6 — Baselines',             <nr_c6>,  <pass_c6>,  False, risk_types=['compensation'],           action_label='Pigment 2.06', action_url=PIGMENT_206) +
+    summary_row('C7 — Metadata',              <nr_c7>,  <pass_c7>,  False, risk_types=['reporting'],              action_label='Pigment 2.05', action_url=PIGMENT_205) +
+    summary_row('C8 — Sigma Access',          <nr_c8>,  <pass_c8>,  False, risk_types=['access'],                 action_label='Lift Request', action_url=LIFT_URL) +
+    summary_row('C9 — Slack: CX-Specialists', <nr_c9>,  <pass_c9>,  False, risk_types=['access'],                 action_label='Contact Field Ops') +
+    summary_row('C10 — Slack: CX-Mgrs',       <nr_c10>, <pass_c10>, False, risk_types=['access'],                 action_label='Contact Field Ops') +
+    summary_row('C11 — CiQ',                  0,        0,           True,  risk_types=['compensation'],           action_label='Contact In-Year Planning Team') +
+    summary_row('C12 — Attainment Dashboard', <nr_c12>, <pass_c12>, False, risk_types=['compensation'],           action_label='Contact DAA', is_last=True)
 )
 # detail_checks: list of dicts with keys: label, nr, rows (list of row dicts), instructions, link_label, link_url
 # Each row dict: {'cells': [list of cell values], 'headers': [list of header names]} on first call only
@@ -1141,7 +1147,7 @@ html = f'''<!DOCTYPE html>
         <thead>
           <tr style="background:#f8fafc;">
             <th style="padding:9px 16px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;border-bottom:1px solid #e2e8f0;">Check</th>
-            <th style="padding:9px 16px;text-align:center;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;border-bottom:1px solid #e2e8f0;">Risk Profile</th>
+            <th style="padding:9px 16px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;border-bottom:1px solid #e2e8f0;">Risk Type</th>
             <th style="padding:9px 16px;text-align:center;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;border-bottom:1px solid #e2e8f0;">Needs Review</th>
             <th style="padding:9px 16px;text-align:center;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;border-bottom:1px solid #e2e8f0;">Passed</th>
             <th style="padding:9px 16px;text-align:center;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;border-bottom:1px solid #e2e8f0;">Manual Check</th>
