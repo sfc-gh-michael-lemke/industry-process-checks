@@ -718,9 +718,9 @@ Present a summary table of check results across all active employees:
 
 | Check | Pass | Needs Review | vs Earlier Today | Risk Type | Link to Resolve |
 |-------|------|--------------|-----------------|-----------|-----------------|
-| C1 — Employee Record | N | N | delta or "No change" | `Compensation` if NR > 0, else — | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
-| C2 — Territories | N | N | delta or "No change" | `Compensation` `Access` if NR > 0, else — | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
-| C3 — ETM Alignments | N | N | delta or "No change" | `Compensation` `Access` if NR > 0, else — | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C1 — Employee Record | N | N | delta or "No change" | — (no risk tags) | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C2 — Territories | N | N | delta or "No change" | `Access` `Compensation` `Reporting` if NR > 0, else — | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
+| C3 — ETM Alignments | N | N | delta or "No change" | `Access` `Compensation` `Reporting` if NR > 0, else — | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
 | C5 — Targets | N | N | delta or "No change" | `Compensation` if NR > 0, else — | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
 | C6 — Baselines | N | N | delta or "No change" | `Compensation` if NR > 0, else — | [Pigment 2.06 — In-Year Planning](https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691) |
 | C7 — Metadata | N | N | delta or "No change" | `Reporting` if NR > 0, else — | [Pigment 2.05 — OPS HC Planning](https://pigment.app/w/snowflake/application/7ab9ab3f-584b-4a23-95b1-813cf708b2c1/boards/6eb0b362-57c3-49bf-99fd-59c693b750bc) |
@@ -728,7 +728,7 @@ Present a summary table of check results across all active employees:
 | C9 — Slack #cx-specialists | N/22 Architects | N | delta or "No change" | `Access` if NR > 0, else — | Contact Field Ops to add to channel |
 | C10 — Slack #cx-specialists-managers | N/3 Arch Mgrs | N | delta or "No change" | `Access` if NR > 0, else — | Contact Field Ops to add to channel |
 | C11 — CiQ | — | MANUAL CHECK | — | `Compensation` | Contact In-Year Planning Team |
-| C12 — Attainment Dashboard | N | N | delta or "No change" | `Compensation` if NR > 0, else — | Fix C1, C7, C5/C6 first; escalate to RevOps/DAA if still failing |
+| C12 — Attainment Dashboard | N | N | delta or "No change" | `Reporting` if NR > 0, else — | Fix C7+C5/C6 first; escalate to RevOps/DAA if still failing |
 | C13 — Transfers (last 15 days) | — | N transfers found | delta or "No change" | — | Re-run C1–C12 for each transferred-in employee |
 
 For the "vs Earlier Today" column: compare against the previous run in this session if one exists. If this is the first run, leave as "—". If counts changed, show the delta (e.g. "+1 new (Employee Name)"). If unchanged, show "No change".
@@ -870,17 +870,17 @@ PIGMENT_205 = 'https://pigment.app/w/snowflake/application/7ab9ab3f-584b-4a23-95
 LIFT_URL    = 'https://lift.snowflake.com/lift?id=esc_sc_cat_item&table=sc_cat_item&sys_id=62819c911b1f1a505f6111f3b24bcb37&searchTerm=sigma'
 
 summary_rows_html = (
-    summary_row('C1 — Employee Record',       <nr_c1>,  <pass_c1>,  False, risk_types=['compensation'],           action_label='Contact In-Year Planning Team') +
-    summary_row('C2 — Territories',           <nr_c2>,  <pass_c2>,  False, risk_types=['compensation','access'],   action_label='Pigment 2.06', action_url=PIGMENT_206) +
-    summary_row('C3 — ETM Alignments',        <nr_c3>,  <pass_c3>,  False, risk_types=['compensation','access'],   action_label='Pigment 2.06', action_url=PIGMENT_206) +
-    summary_row('C5 — Targets',               <nr_c5>,  <pass_c5>,  False, risk_types=['compensation'],           action_label='Pigment 2.06', action_url=PIGMENT_206) +
-    summary_row('C6 — Baselines',             <nr_c6>,  <pass_c6>,  False, risk_types=['compensation'],           action_label='Pigment 2.06', action_url=PIGMENT_206) +
-    summary_row('C7 — Metadata',              <nr_c7>,  <pass_c7>,  False, risk_types=['reporting'],              action_label='Pigment 2.05', action_url=PIGMENT_205) +
-    summary_row('C8 — Sigma Access',          <nr_c8>,  <pass_c8>,  False, risk_types=['access'],                 action_label='Lift Request', action_url=LIFT_URL) +
-    summary_row('C9 — Slack: CX-Specialists', <nr_c9>,  <pass_c9>,  False, risk_types=['access'],                 action_label='Contact Field Ops') +
-    summary_row('C10 — Slack: CX-Mgrs',       <nr_c10>, <pass_c10>, False, risk_types=['access'],                 action_label='Contact Field Ops') +
-    summary_row('C11 — CiQ',                  0,        0,           True,  risk_types=['compensation'],           action_label='Contact In-Year Planning Team') +
-    summary_row('C12 — Attainment Dashboard', <nr_c12>, <pass_c12>, False, risk_types=['compensation'],           action_label='Contact DAA', is_last=True)
+    summary_row('C1 — Employee Record',       <nr_c1>,  <pass_c1>,  False, risk_types=None,                                  action_label='Contact In-Year Planning Team') +
+    summary_row('C2 — Territories',           <nr_c2>,  <pass_c2>,  False, risk_types=['access','compensation','reporting'], action_label='Pigment 2.06', action_url=PIGMENT_206) +
+    summary_row('C3 — ETM Alignments',        <nr_c3>,  <pass_c3>,  False, risk_types=['access','compensation','reporting'], action_label='Pigment 2.06', action_url=PIGMENT_206) +
+    summary_row('C5 — Targets',               <nr_c5>,  <pass_c5>,  False, risk_types=['compensation'],                     action_label='Pigment 2.06', action_url=PIGMENT_206) +
+    summary_row('C6 — Baselines',             <nr_c6>,  <pass_c6>,  False, risk_types=['compensation'],                     action_label='Pigment 2.06', action_url=PIGMENT_206) +
+    summary_row('C7 — Metadata',              <nr_c7>,  <pass_c7>,  False, risk_types=['reporting'],                        action_label='Pigment 2.05', action_url=PIGMENT_205) +
+    summary_row('C8 — Sigma Access',          <nr_c8>,  <pass_c8>,  False, risk_types=['access'],                          action_label='Lift Request', action_url=LIFT_URL) +
+    summary_row('C9 — Slack: CX-Specialists', <nr_c9>,  <pass_c9>,  False, risk_types=['access'],                          action_label='Contact Field Ops') +
+    summary_row('C10 — Slack: CX-Mgrs',       <nr_c10>, <pass_c10>, False, risk_types=['access'],                          action_label='Contact Field Ops') +
+    summary_row('C11 — CiQ',                  0,        0,           True,  risk_types=['compensation'],                     action_label='Contact In-Year Planning Team') +
+    summary_row('C12 — Attainment Dashboard', <nr_c12>, <pass_c12>, False, risk_types=['reporting'],                        action_label='Contact DAA', is_last=True)
 )
 # detail_checks: list of dicts with keys: label, nr, rows (list of row dicts), instructions, link_label, link_url
 # Each row dict: {'cells': [list of cell values], 'headers': [list of header names]} on first call only
