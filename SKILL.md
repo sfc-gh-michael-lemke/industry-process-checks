@@ -878,7 +878,7 @@ summary_rows_html = (
 )
 # detail_checks: list of dicts with keys: label, nr, rows (list of row dicts), instructions, link_label, link_url
 # Each row dict: {'cells': [list of cell values], 'headers': [list of header names]} on first call only
-def detail_section(label, nr, headers, rows, instructions, link_label=None, link_url=None, badge_bg='#fee2e2', badge_fg='#dc2626'):
+def detail_section(label, nr, headers, rows, instructions, link_label=None, link_url=None, badge_bg='#fee2e2', badge_fg='#dc2626', risk_label=None):
     if nr == 0:
         return ''
     header_cells = ''.join(f'<th style="padding:9px 14px;text-align:left;font-weight:600;color:#64748b;font-size:11px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #e2e8f0;">{h}</th>' for h in headers)
@@ -890,14 +890,18 @@ def detail_section(label, nr, headers, rows, instructions, link_label=None, link
     link_html = (
         f'<a href="{link_url}" target="_blank" style="font-size:12px;color:#2563eb;font-weight:500;white-space:nowrap;">&rarr; {link_label}</a>'
         if link_label and link_url else
-        f'<span style="font-size:12px;font-weight:500;color:#475569;white-space:nowrap;">{link_label}</span>'
+        f'<span style="font-size:12px;font-weight:500;color:#475569;white-space:nowrap;">&rarr; {link_label}</span>'
         if link_label else ''
+    )
+    risk_html = (
+        f'<span style="font-size:11px;font-weight:600;color:#94a3b8;margin-left:4px;">· Risk: {risk_label}</span>'
+        if risk_label else ''
     )
     return f'''
     <div style="margin-bottom:28px;">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
         <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:2px 8px;border-radius:99px;background:{badge_bg};color:{badge_fg};">{nr} Needs Review</span>
-        <span style="font-size:14px;font-weight:700;color:#0f172a;">{label}</span>
+        <span style="font-size:14px;font-weight:700;color:#0f172a;">{label}</span>{risk_html}
       </div>
       <div style="background:#fff;border-radius:10px;border:1px solid #e2e8f0;overflow:hidden;">
         <table style="width:100%;border-collapse:collapse;font-size:13px;">
@@ -905,7 +909,7 @@ def detail_section(label, nr, headers, rows, instructions, link_label=None, link
           <tbody>{row_html}</tbody>
         </table>
         <div style="padding:12px 16px;background:#f8fafc;border-top:1px solid #e2e8f0;font-size:12px;color:#64748b;display:flex;justify-content:space-between;align-items:center;">
-          <span>{instructions}</span>{link_html}
+          <span><strong>Action Needed:</strong> {instructions}</span>{link_html}
         </div>
       </div>
     </div>'''
@@ -919,7 +923,8 @@ detail_sections_html += detail_section(
     ['Employee', 'Role', 'Manager', 'Action'],
     <needs_review_rows_c1>,   # e.g. [['Jane Doe (12345)', 'Industry GTM', 'Rinesh Patel', 'Contact Field Ops']]
     'Ops Ready status required before ICM sync.',
-    'Contact In-Year Planning Team'  # no URL — renders as plain text
+    'Contact In-Year Planning Team',  # no URL — renders as plain text
+    risk_label='High — Compensation'
 )
 
 # C5 — Targets
@@ -928,7 +933,8 @@ detail_sections_html += detail_section(
     ['Employee', 'Role', 'Missing'],
     <needs_review_rows_c5>,   # e.g. [['Rinesh Patel (5368)', 'Industry GTM Mgmt', 'Secondary INCR target']]
     'Enter CALC_SECONDARY_INCR_CONSUMPTION in Pigment. Baselines (C6) will also need updating after targets are set.',
-    'Pigment 2.06', 'https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691'
+    'Pigment 2.06', 'https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691',
+    risk_label='High — Compensation'
 )
 
 # C6 — Baselines
@@ -937,7 +943,8 @@ detail_sections_html += detail_section(
     ['Employee', 'Months Affected'],
     <needs_review_rows_c6>,
     'Resolve C5 first. Baselines auto-populate once targets are set. If still failing, manually enter monthly baselines in Pigment.',
-    'Pigment 2.06', 'https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691'
+    'Pigment 2.06', 'https://pigment.app/w/snowflake/application/9746e078-5805-4dba-b0df-3d4adcb95601/boards/e579b1e3-b2bd-44d7-b864-70c46713b691',
+    risk_label='High — Compensation'
 )
 
 # C7 — Metadata (Low risk badge)
@@ -947,7 +954,8 @@ detail_sections_html += detail_section(
     <needs_review_rows_c7>,
     'Add SPECIALIST_GROUP to Pigment 2.05 OPS HC Planning (Specialist Overview). Only a handful of employees typically have this missing.',
     'Pigment 2.05', 'https://pigment.app/w/snowflake/application/7ab9ab3f-584b-4a23-95b1-813cf708b2c1/boards/6eb0b362-57c3-49bf-99fd-59c693b750bc',
-    badge_bg='#f8fafc', badge_fg='#6b7280'
+    badge_bg='#f8fafc', badge_fg='#6b7280',
+    risk_label='Low — Reporting'
 )
 
 # C8 — Sigma Access (Medium risk badge)
@@ -957,7 +965,8 @@ detail_sections_html += detail_section(
     <needs_review_rows_c8>,
     'Employee not found as an active Sigma user. File a Lift ticket to provision access.',
     'Lift Request', 'https://lift.snowflake.com/lift?id=esc_sc_cat_item&table=sc_cat_item&sys_id=62819c911b1f1a505f6111f3b24bcb37&searchTerm=sigma',
-    badge_bg='#fef9c3', badge_fg='#d97706'
+    badge_bg='#fef9c3', badge_fg='#d97706',
+    risk_label='Medium — Access'
 )
 
 # C12 — Attainment Dashboard (Remediation Location: Contact DAA, no URL)
@@ -965,8 +974,9 @@ detail_sections_html += detail_section(
     'C12 — Attainment Dashboard', <nr_c12>,
     ['Employee', 'Role', 'Manager', 'Resolution Order'],
     <needs_review_rows_c12>,
-    '⚡ Fix C1 (Ops Ready) and C7 (Metadata) first; then verify C5/C6 targets and baselines are populated. Attainment data refreshes overnight. For persistent misses, escalate to RevOps.',
-    'Contact DAA'  # no URL — renders as plain text
+    'Fix C1 (Ops Ready) and C7 (Metadata) first; then verify C5/C6 targets and baselines are populated. Attainment data refreshes overnight. For persistent misses, escalate to RevOps.',
+    'Contact DAA',  # no URL — renders as plain text
+    risk_label='High — Compensation'
 )
 
 # ── KPI computation ──────────────────────────────────────────────────────
